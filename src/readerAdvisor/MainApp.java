@@ -19,7 +19,7 @@ public class MainApp {
                     // Start the program
                     TextWindow.getInstance().startGUI();
                 }catch(Exception e){
-                    e.printStackTrace();
+                    e.printStackTrace( );
                 }
             }
         });
