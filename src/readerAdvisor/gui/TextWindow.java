@@ -137,12 +137,16 @@ public class TextWindow extends ParentWindow {
         FileUtils.removeHighlights(contentWindow);
     }
 
-    public synchronized int highlightFistMatch(String word) throws InterruptedException{
-        return highlightFistMatch(word, 0, 0);
+    public synchronized int highlightFirstMatch(String word) throws InterruptedException{
+        return highlightFirstMatch(word, 0, 0);
     }
 
-    public synchronized int highlightFistMatch(String word, int startPosition, int endPosition) throws InterruptedException{
+    public synchronized int highlightFirstMatch(String word, int startPosition, int endPosition) throws InterruptedException{
         return FileUtils.highlightFirstMatch(contentWindow, word, startPosition, endPosition);
+    }
+
+    public synchronized int highlightFistMatchUsingParagraphObject(String word, int startPosition, int endPosition) throws InterruptedException{
+        return FileUtils.highlightFistMatchUsingParagraphObject(contentWindow, word, startPosition, endPosition);
     }
 
     public synchronized int highlightMatch(String word, int startPosition, int endPosition) throws InterruptedException{

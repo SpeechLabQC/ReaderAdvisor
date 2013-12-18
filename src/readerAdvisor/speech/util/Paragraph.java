@@ -49,6 +49,7 @@ public class Paragraph {
 
         int first = 0, last = 0;
 
+        // Iterate through every line and find the position where this line is located along the entire flat paragraph
         for(String reference : referenceList){
             first = paragraph.indexOf(reference, last);
             last = first + reference.length();

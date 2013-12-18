@@ -48,7 +48,7 @@ public abstract class DecodingThread extends Thread {
         return highlightText(word, FileUtils.TO_RECOGNIZE_HIGHLIGHTER, position, 0);
     }
 
-    // This highlighter, highlights
+    // Highlight the line by providing its start and end position in the paragraph
     protected int highlightTextToRecognize(String word, int startPosition, int endPosition){
         try{
             FileUtils.getInstance().setHighlighter(FileUtils.TO_RECOGNIZE_HIGHLIGHTER);
@@ -67,7 +67,21 @@ public abstract class DecodingThread extends Thread {
     protected int highlightText(String word, MyHighlighter highlighter, int startPosition, int endPosition){
         try{
             FileUtils.getInstance().setHighlighter(highlighter);
-            startPosition = TextWindow.getInstance().highlightFistMatch(word, startPosition, endPosition);
+            startPosition = TextWindow.getInstance().highlightFirstMatch(word, startPosition, endPosition);
+        }catch(Exception err){
+            err.printStackTrace();
+        }
+        return startPosition;
+    }
+
+    protected int highlightTextRecognizedUsingParagraphObject(String word, int startPosition, int endPosition){
+        return highlightTextUsingParagraphObject(word, FileUtils.RECOGNIZED_HIGHLIGHTER, startPosition, endPosition);
+    }
+
+    protected int highlightTextUsingParagraphObject(String word, MyHighlighter highlighter, int startPosition, int endPosition){
+        try{
+            FileUtils.getInstance().setHighlighter(highlighter);
+            startPosition = TextWindow.getInstance().highlightFistMatchUsingParagraphObject(word, startPosition, endPosition);
         }catch(Exception err){
             err.printStackTrace();
         }

@@ -62,6 +62,11 @@ public class FileUtils {
         return (text.replaceAll("[^\\p{L}\\p{Nd}\n]", " "));//replaceAll("\\s+", " "));
     }
 
+    // Only get the words - No digits - No symbols.
+    public static synchronized String getAlphabeticalChars(String text){
+        return (text.replaceAll("[^\\p{L}\n]", " "));
+    }
+
     /*
      * Remove all Returns created by Windows OS
      */
@@ -340,6 +345,17 @@ public class FileUtils {
 
     public static int highlightFirstMatch(JEditorPane textPane, String word, int startPosition, int endPosition) throws InterruptedException{
         HighlightWord highlightWord = new HighlightWord();
+        highlightWord.setTextPane(textPane);
+        highlightWord.setWord(word);
+        highlightWord.setStartPosition(startPosition);
+        highlightWord.setEndPosition(endPosition);
+        highlightWord.start();
+        highlightWord.join();
+        return highlightWord.getPosition();
+    }
+
+    public static int highlightFistMatchUsingParagraphObject(JEditorPane textPane, String word, int startPosition, int endPosition) throws InterruptedException{
+        HighlightFullWordWithParagraphObject highlightWord = new HighlightFullWordWithParagraphObject();
         highlightWord.setTextPane(textPane);
         highlightWord.setWord(word);
         highlightWord.setStartPosition(startPosition);
