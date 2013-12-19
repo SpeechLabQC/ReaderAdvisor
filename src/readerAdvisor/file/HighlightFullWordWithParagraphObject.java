@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Highlights the words - This class is replaced by readerAdvisor.analyzer.text.WordFinder.
+ * Highlights the words - This class is replaced by readerAdvisor.analyzer.text.WordFinderQueue.
  * This class uses Threads for a GUI. SwingUtilities should be used to handle GUI's actions.
  */
 public class HighlightFullWordWithParagraphObject extends HighlightWord {

@@ -10,16 +10,15 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
  * Find the word in the given line and add it to the list of found words
  * It could be used with the ThreadPool in order to look for multiple words at once
  */
-// TODO: Create jUnit test for all new classes
-public class WordFinder extends Thread {
+public class WordFinderQueue extends Thread {
 
     protected final Position position;
     protected String word;
     protected String line;
     protected final AtomicReferenceArray<Position> positions;
 
-    public WordFinder(Position position, String word, String line, AtomicReferenceArray<Position> positions){
-        this.position = position;
+    public WordFinderQueue(Position position, String word, String line, AtomicReferenceArray<Position> positions){
+        this.position = position; // Contains the position from where to start looking to where to stop
         this.word = word;
         this.line = line;
         this.positions = positions;
@@ -59,7 +58,11 @@ public class WordFinder extends Thread {
                 int indexInList = words.indexOf(word);
                 // If the word is the first token, then find the position of the word itself - otherwise, add a space in front of the word.
                 // Add space to avoid indexing the position of a word that contains another one. Ex.- 'Leather' contains 'the', 'Start' contains 'art'.
-                position.increaseStartPositionBy(indexInList == 0 ? line.indexOf(word) : (line.indexOf(" "+word) + 1)); //Advance the space that was included
+                position.increaseStartPositionBy(indexInList == 0 ? line.indexOf(word+" ") :  // Check if the word is located at the beginning
+                                                    (indexInList == words.size()-1 ?           // Check if the word is located at the end
+                                                            line.indexOf(" "+word) :
+                                                            line.indexOf(" "+word+" ")
+                                                    )+1); //Advance the space that was included
                 // Update the end position
                 position.setEndPosition(position.getStartPosition() + word.length());
                 // Insert this updated position at the end of the list
