@@ -30,7 +30,7 @@ public class HighlightFullWordWithParagraphObject extends HighlightWord {
         if(lengthToRead > 0){
             try {
                 String line = textPane.getDocument().getText(startPosition, lengthToRead).toLowerCase();
-                // Clean up the text from non-alphabetical characters
+                // Replace the non-alphabetical characters for spaces
                 line = FileUtils.getAlphabeticalChars(line);
                 // Split the words by space in store them in a list
                 List<String> words = Arrays.asList(line.split("\\s+"));
@@ -40,7 +40,11 @@ public class HighlightFullWordWithParagraphObject extends HighlightWord {
                     // If the word is the first token, then find the position of the word itself
                     // otherwise, add a space in front of the word.
                     // Avoid indexing the position of a word that contains another one. Ex.- 'Leather' contains 'the', 'Start' contains 'art'.
-                    int offset = (indexInList == 0 ? line.indexOf(word) : (line.indexOf(" "+word) + 1)); //Advance the space that was included
+                    int offset = (indexInList == 0 ? line.indexOf(word+" ") :  // Check if the word is located at the beginning
+                                    (indexInList == words.size()-1 ?           // Check if the word is located at the end
+                                            line.indexOf(" "+word) :
+                                            line.indexOf(" "+word+" ")
+                                    )+1); //Advance the space that was included
                     // The new offset position is the actual position plus the offset (the position in the line)
                     offset += startPosition;
                     // Update the position to return it to the user
