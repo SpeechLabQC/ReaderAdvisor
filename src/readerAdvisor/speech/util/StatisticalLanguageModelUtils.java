@@ -27,6 +27,7 @@ public class StatisticalLanguageModelUtils {
     private static final String win32_directory  = GlobalProperties.getInstance().getProperty("statisticalLanguageModelUtils.win32");
     private static final String batch_script     = GlobalProperties.getInstance().getProperty("statisticalLanguageModelUtils.batch");
     private static final String unix_directory   = GlobalProperties.getInstance().getProperty("statisticalLanguageModelUtils.unix");
+    private static final String mac_directory   = GlobalProperties.getInstance().getProperty("statisticalLanguageModelUtils.mac");
     private static final String shell_script     = GlobalProperties.getInstance().getProperty("statisticalLanguageModelUtils.shell");
     private static final boolean DELETE_ON_CLOSE = GlobalProperties.getInstance().getPropertyAsBoolean("statisticalLanguageModelUtils.deleteFilesOnClose");
 
@@ -41,7 +42,13 @@ public class StatisticalLanguageModelUtils {
         return (EnvironmentUtils.isWindows() ?
                 createLanguageModel(dir,grammar,text,win32_directory,batch_script)
                 :
-                createLanguageModel(dir,grammar,text,unix_directory,shell_script));
+            (
+                EnvironmentUtils.isMac() ?
+                    createLanguageModel(dir,grammar,text,mac_directory,shell_script)
+                :
+                    createLanguageModel(dir,grammar,text,unix_directory,shell_script)
+            )
+        );
     }
 
     /**
